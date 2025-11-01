@@ -16,4 +16,5 @@ public class AccountResponse {
     private String accountHolderName;
     private Double balance;
     private Account_Type accountType;
+    private String ownerUsername;
 }

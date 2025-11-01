@@ -22,16 +22,16 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public AccountResponse createAccount(AccountRequest request) {
-        Account createAccount=toEntity(request);
-        createAccount=repository.save(createAccount);
-        AccountResponse response=toResponse(createAccount);
-        return response;
+    public AccountResponse createAccount(AccountRequest request, String userName) {
+        Account createAccount = toEntity(request);
+        createAccount.setOwnerUsername(userName);
+        createAccount = repository.save(createAccount);
+        return toResponse(createAccount);
     }
+
 
     @Override
     public AccountResponse getAccountByID(Long id) {
-
         Account account=repository.findById(id).orElseThrow(()->new RuntimeException("acc not found"));
         AccountResponse response=toResponse(account);
         return response;
@@ -67,6 +67,7 @@ public class AccountServiceImpl implements AccountService{
                 .accountNumber(a.getAccountNumber())
                 .accountHolderName(a.getAccHolderName())
                 .balance(a.getBalance())
+                .ownerUsername(a.getOwnerUsername())
                 .accountType(a.getAccountType())
                 .build();
     }

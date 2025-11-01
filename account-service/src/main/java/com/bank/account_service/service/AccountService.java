@@ -6,7 +6,7 @@ import com.bank.account_service.entity.Account;
 import org.springframework.data.domain.Page;
 
 public interface AccountService {
-    AccountResponse createAccount(AccountRequest request);
+    AccountResponse createAccount(AccountRequest request,String userName);
     AccountResponse getAccountByID(Long id);
     Page<AccountResponse> list(int page, int size, String sortBy, String direction);
     AccountResponse update(Long id, AccountRequest request);

@@ -50,6 +50,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
+        System.out.println("==== JWT DEBUG START ====");
+        System.out.println("Authorization Header: " + header);
+        System.out.println("Extracted Token: " + token);
+        System.out.println("Extracted Username: " + username);
+        System.out.println("Token valid: " + (token != null && username != null && jwtUtil.validateToken(token, username)));
+        System.out.println("==== JWT DEBUG END ====");
+
         filterChain.doFilter(request, response);
     }
 }

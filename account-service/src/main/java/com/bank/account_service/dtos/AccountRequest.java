@@ -16,4 +16,5 @@ public class AccountRequest {
     private String accountHolderName;
     private Double balance;
     private Account_Type accountType;
+//    private String ownerUsername;
 }

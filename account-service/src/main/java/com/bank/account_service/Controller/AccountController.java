@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,7 +26,8 @@ public class AccountController {
 
     @PostMapping("/createAccount")
     public ResponseEntity<AccountResponse> createAccount(@RequestBody AccountRequest request){
-        AccountResponse response=accountService.createAccount(request);
+        String userName= SecurityContextHolder.getContext().getAuthentication().getName();
+        AccountResponse response=accountService.createAccount(request,userName);
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 

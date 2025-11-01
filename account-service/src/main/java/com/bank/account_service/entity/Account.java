@@ -23,6 +23,9 @@ public class Account {
     private String accHolderName;
 
     @Column(nullable = false)
+    private String ownerUsername;
+
+    @Column(nullable = false)
     private Double balance;
 
     @Enumerated(EnumType.STRING)
