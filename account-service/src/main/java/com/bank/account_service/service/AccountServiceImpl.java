@@ -1,7 +1,6 @@
 package com.bank.account_service.service;
 
-import com.bank.account_service.dtos.AccountRequest;
-import com.bank.account_service.dtos.AccountResponse;
+import com.bank.account_service.dtos.*;
 import com.bank.account_service.entity.Account;
 import com.bank.account_service.repo.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +41,48 @@ public class AccountServiceImpl implements AccountService{
         Account account = repository.findByAccountNumber(accNumber)
                 .orElseThrow(() -> new RuntimeException("Account not found: " + accNumber));
         return toResponse(account);
+    }
+
+    @Override
+    public TransactionResponseDTO debitBalance(DebitRequestDTO request) {
+        Account account=repository.findByAccountNumber(request.getAccountNumber())
+                .orElseThrow(()-> new RuntimeException("Acc not found:"+request.getAccountNumber()));
+
+        if(account.getBalance()< request.getAmount()){
+            throw new RuntimeException("Insufficient balance...!");
+        }
+
+        Double updatedBalance= account.getBalance()- request.getAmount();//debit amount
+        account.setBalance(updatedBalance);
+
+        repository.save(account);
+
+        TransactionResponseDTO responseDTO= TransactionResponseDTO.builder()
+                .accountNumber(account.getAccountNumber())
+                .balance(account.getBalance())
+                .status("Debited amount:"+request.getAmount())
+                .build();
+
+        return responseDTO;
+    }
+
+    @Override
+    public TransactionResponseDTO creditBalance(CreditRequestDTO request) {
+        Account account=repository.findByAccountNumber(request.getAccountNumber())
+                .orElseThrow(()-> new RuntimeException("Acc not found:"+request.getAccountNumber()));
+
+        Double updatedBalance= account.getBalance()+ request.getAmount(); //add amount here
+        account.setBalance(updatedBalance);
+
+        repository.save(account);
+
+        TransactionResponseDTO responseDTO= TransactionResponseDTO.builder()
+                .accountNumber(account.getAccountNumber())
+                .balance(account.getBalance())
+                .status("Credited amount:"+request.getAmount())
+                .build();
+
+        return responseDTO;
     }
 
     @Override

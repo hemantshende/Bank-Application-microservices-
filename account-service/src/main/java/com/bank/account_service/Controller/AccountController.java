@@ -1,13 +1,10 @@
 package com.bank.account_service.Controller;
 
-import com.bank.account_service.dtos.AccountRequest;
-import com.bank.account_service.dtos.AccountResponse;
-import com.bank.account_service.entity.Account;
+import com.bank.account_service.dtos.*;
 import com.bank.account_service.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -18,17 +15,32 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     @Autowired
-    private final AccountService accountService;
+    private AccountService accountService;
 
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
 
+    //--------------------------create Account---------------------------//
     @PostMapping("/createAccount")
     public ResponseEntity<AccountResponse> createAccount(@RequestBody AccountRequest request){
         String userName= SecurityContextHolder.getContext().getAuthentication().getName();
         AccountResponse response=accountService.createAccount(request,userName);
         return new ResponseEntity<>(response,HttpStatus.CREATED);
+    }
+
+    //----------------------Debit Money----------------//
+    @PostMapping("/debit")
+    public ResponseEntity<TransactionResponseDTO> debitBalance(@RequestBody DebitRequestDTO request) {
+        TransactionResponseDTO response = accountService.debitBalance(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    //----------------------Credit Money---------------//
+    @PostMapping("/credit")
+    public ResponseEntity<TransactionResponseDTO> creditBalance(@RequestBody CreditRequestDTO request) {
+        TransactionResponseDTO response = accountService.creditBalance(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/getById/{id}")
@@ -60,7 +72,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/deleteById/{id}")
-    public ResponseEntity<Void> delete(Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

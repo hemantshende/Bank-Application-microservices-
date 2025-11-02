@@ -1,7 +1,6 @@
 package com.bank.account_service.service;
 
-import com.bank.account_service.dtos.AccountRequest;
-import com.bank.account_service.dtos.AccountResponse;
+import com.bank.account_service.dtos.*;
 import com.bank.account_service.entity.Account;
 import org.springframework.data.domain.Page;
 
@@ -12,4 +11,8 @@ public interface AccountService {
     AccountResponse update(Long id, AccountRequest request);
     void delete(Long id);
     public AccountResponse getByAccountNumber(String accNumber);
+
+    TransactionResponseDTO debitBalance(DebitRequestDTO request);
+
+    TransactionResponseDTO creditBalance(CreditRequestDTO request);
 }
