@@ -40,6 +40,7 @@ public class TransactionService {
         responseDTO.setTransactionId(txn.getId());
         responseDTO.setFromAccount(txn.getFromAccount());
         responseDTO.setToAccount(txn.getToAccount());
+        responseDTO.setAmount(txn.getAmount());
         responseDTO.setTransactionDate(txn.getTransactionDate());
         responseDTO.setStatus(txn.getTransactionStatus());
         responseDTO.setMessage("transfer successfully");
