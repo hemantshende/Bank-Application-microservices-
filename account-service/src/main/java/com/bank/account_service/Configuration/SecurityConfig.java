@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/health", "/actuator/**").permitAll() // optional
-                        .requestMatchers("/api/accounts/**").authenticated()
+                        .requestMatchers("/api/accounts/**").permitAll()   //need to change to Authenticated()
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

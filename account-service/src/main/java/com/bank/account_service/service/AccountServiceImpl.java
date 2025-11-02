@@ -38,6 +38,13 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
+    public AccountResponse getByAccountNumber(String accNumber) {
+        Account account = repository.findByAccountNumber(accNumber)
+                .orElseThrow(() -> new RuntimeException("Account not found: " + accNumber));
+        return toResponse(account);
+    }
+
+    @Override
     public Page<AccountResponse> list(int pageNumber, int size, String sortBy, String direction) {
         Sort sort=Sort.by(Sort.Direction.ASC);
         Pageable pageable= PageRequest.of(pageNumber,size,sort);

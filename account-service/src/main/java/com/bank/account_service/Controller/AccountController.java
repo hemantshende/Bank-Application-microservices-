@@ -37,7 +37,13 @@ public class AccountController {
         return  new ResponseEntity<>(response,HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/getPage")
+    @GetMapping("/getByAccountNumber/{accNumber}")
+    public ResponseEntity<AccountResponse> getByAccountNumber(@PathVariable String accNumber) {
+        AccountResponse response = accountService.getByAccountNumber(accNumber);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAccounts")
     public ResponseEntity<Page<AccountResponse>> list(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,

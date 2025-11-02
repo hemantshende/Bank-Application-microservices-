@@ -11,4 +11,5 @@ public interface AccountService {
     Page<AccountResponse> list(int page, int size, String sortBy, String direction);
     AccountResponse update(Long id, AccountRequest request);
     void delete(Long id);
+    public AccountResponse getByAccountNumber(String accNumber);
 }
