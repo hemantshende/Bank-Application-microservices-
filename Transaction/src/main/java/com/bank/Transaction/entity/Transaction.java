@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "transaction")
+@Table(name = "transactions")
 @Entity
 public class Transaction {
     @Id
